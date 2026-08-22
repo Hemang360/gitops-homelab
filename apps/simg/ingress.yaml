@@ -1,17 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: simg
-  namespace: simg
+ name: simg
+ namespace: simg
+ annotations:
+ cert-manager.io/cluster-issuer: selfsigned
 spec:
-  ingressClassName: nginx
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: simg
-                port:
-                  number: 80
+ ingressClassName: nginx
+ tls:
+ - hosts: ["simg.homelab.local"]
+ secretName: simg-tls
+ rules:
+ - host: simg.homelab.local
+ http:
+ paths:
+ - path: /
+ pathType: Prefix
+ backend:
+ service:
+ name: simg
+ port:
+ number: 80

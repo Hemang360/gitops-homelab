@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resume-builder
+  namespace: resume-builder
+  labels:
+    app: resume-builder
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: resume-builder
+  template:
+    metadata:
+      labels:
+        app: resume-builder
+    spec:
+      containers:
+        - name: resume-builder
+          image: hemang360/resume-builder
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resume-builder-secrets
+                  key: django-secret-key
+            - name: REDIS_URL
+              value: redis://redis:6379/0
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
