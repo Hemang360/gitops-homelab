@@ -1,0 +1,49 @@
+# kubeconfigs
+kubeconfig
+kubeconfig*.yaml
+*.kubeconfig
+.kube/
+
+# raw (unsealed) secrets
+apps/**/secret.yaml
+apps/**/secrets.yaml
+apps/**/*.secret.yaml
+*.env
+.env.*
+!.env.example
+
+# cert-manager / TLS
+*.pem
+*.key
+*.crt
+*-tls.yaml
+
+# Helm
+charts/*.tgz
+**/charts/*/charts/
+.helmignore
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+
+# local overrides / scratch manifests
+*.local.yaml
+kustomization.local.yaml
+scratch/
+
+# k3d / kind exported kubeconfigs
+k3d-*.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+*.swp
+*~
